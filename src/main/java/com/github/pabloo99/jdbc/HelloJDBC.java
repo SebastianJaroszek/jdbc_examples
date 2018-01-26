@@ -7,6 +7,8 @@ public class HelloJDBC {
     public static void main(String[] args) {
         Logger logger = Logger.getLogger(HelloJDBC.class);
 
+
+
         logger.info("Hello JDBC!");
     }
 }
