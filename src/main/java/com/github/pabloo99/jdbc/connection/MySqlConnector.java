@@ -22,7 +22,8 @@ public class MySqlConnector {
         }
 
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/hr", "root", "940647xd");
+            return DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/hr4?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "940647xd");
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
         }
