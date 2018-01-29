@@ -102,4 +102,37 @@ public class EmployeesDao {
         return employee;
     }
 
+    public int save(Employee employee) throws SQLException {
+
+        String query = "INSERT INTO employees(employee_id, first_name, last_name, email, phone_number, hire_date, job_id, " +
+                "salary, commission_pct, manager_id, department_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+
+        try {
+            connection = MySqlConnector.getMySqlConnection();
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, employee.getEmployeeId());
+            statement.setString(2, employee.getFirstName());
+            statement.setString(3, employee.getLastName());
+            statement.setString(4, employee.getEmail());
+            statement.setString(5, employee.getPhoneNumber());
+            statement.setDate(6, Date.valueOf(employee.getHireDate()));
+            statement.setString(7, employee.getJobId());
+            statement.setDouble(8, employee.getSalary());
+            statement.setDouble(9, employee.getCommissionPct());
+            statement.setInt(10, employee.getManagerId());
+            statement.setInt(11, employee.getDepartmentId());
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+        return 0;
+    }
+
 }
