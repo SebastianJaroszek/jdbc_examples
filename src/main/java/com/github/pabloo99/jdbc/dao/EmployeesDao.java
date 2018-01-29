@@ -16,15 +16,19 @@ public class EmployeesDao {
 
     private final static Logger logger = Logger.getLogger(EmployeesDao.class);
 
-    public List<Employee> findAll() {
+    public List<Employee> findAll() throws SQLException {
 
         String query = "SELECT * FROM employees";
         List<Employee> allEmployees = new ArrayList<>();
 
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
+
         try {
-            Connection connection = MySqlConnector.getMySqlConnection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(query);
+            connection = MySqlConnector.getMySqlConnection();
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
 
             while (rs.next()) {
                 Employee employee = new Employee();
@@ -46,9 +50,13 @@ public class EmployeesDao {
 
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
+        } finally {
+            rs.close();
+            statement.close();
+            connection.close();
         }
 
-        return null;
+        return allEmployees;
     }
 
 
