@@ -58,7 +58,7 @@ public class EmployeesDao {
 
     public Employee findById(Integer employeeId) throws SQLException {
 
-        String query = "SELECT * FROM employees WHERE employee_id=?";
+        String query = "SELECT * FROM employees WHERE employee_id = ?";
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -71,7 +71,7 @@ public class EmployeesDao {
             statement = connection.prepareStatement(query);
             statement.setInt(1, employeeId);
 
-            rs = statement.executeQuery(query);
+            rs = statement.executeQuery();
 
 
             while (rs.next()) {
