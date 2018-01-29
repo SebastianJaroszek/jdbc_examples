@@ -124,6 +124,7 @@ public class EmployeesDao {
             statement.setDouble(9, employee.getCommissionPct());
             statement.setInt(10, employee.getManagerId());
             statement.setInt(11, employee.getDepartmentId());
+            //connection.commit();
             return statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -134,5 +135,50 @@ public class EmployeesDao {
 
         return 0;
     }
+
+    public int delete(int employeeId) throws SQLException {
+
+        String query = "DELETE FROM employees WHERE employee_id = ?";
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+
+        try {
+            connection = MySqlConnector.getMySqlConnection();
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, employeeId);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+
+        return 0;
+    }
+
+    public void updateSalary(int id, double salary) throws SQLException {
+        String query = "UPDATE employees SET SALARY = ? WHERE employee_id = ?";
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = MySqlConnector.getMySqlConnection();
+            statement = connection.prepareStatement(query);
+            statement.setInt(2, id);
+            statement.setDouble(1, salary);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+
+
 
 }
